@@ -112,6 +112,10 @@ func makeTrampoline(typ reflect.Type, handle unsafe.Pointer) (rFunc, error) {
 			case reflect.Uintptr:
 				args[ii] = unsafe.Pointer(uintptr(v.Uint()))
 				flags[ii] |= C.ARG_FLAG_SIZE_PTR
+			case reflect.UnsafePointer:
+				args[ii] = v.UnsafePointer()
+				flags[ii] |= C.ARG_FLAG_SIZE_PTR
+
 			default:
 				panic(fmt.Errorf("can't bind value of type %s,kind:%s", v.Type(), v.Kind()))
 			}
